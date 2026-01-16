@@ -10,134 +10,110 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as LayoutRouteImport } from './routes/_layout'
+import { Route as RegisterIndexRouteImport } from './routes/register/index'
 import { Route as LoginIndexRouteImport } from './routes/login/index'
 import { Route as LayoutIndexRouteImport } from './routes/_layout/index'
-import { Route as ProjectProjectIdIndexRouteImport } from './routes/project/$projectId/index'
-import { Route as FolderFolderIdIndexRouteImport } from './routes/folder/$folderId/index'
 
 const LayoutRoute = LayoutRouteImport.update({
-    id: '/_layout',
-    getParentRoute: () => rootRouteImport,
+  id: '/_layout',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RegisterIndexRoute = RegisterIndexRouteImport.update({
+  id: '/register/',
+  path: '/register/',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const LoginIndexRoute = LoginIndexRouteImport.update({
-    id: '/login/',
-    path: '/login/',
-    getParentRoute: () => rootRouteImport,
+  id: '/login/',
+  path: '/login/',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const LayoutIndexRoute = LayoutIndexRouteImport.update({
-    id: '/',
-    path: '/',
-    getParentRoute: () => LayoutRoute,
-} as any)
-const ProjectProjectIdIndexRoute = ProjectProjectIdIndexRouteImport.update({
-    id: '/project/$projectId/',
-    path: '/project/$projectId/',
-    getParentRoute: () => rootRouteImport,
-} as any)
-const FolderFolderIdIndexRoute = FolderFolderIdIndexRouteImport.update({
-    id: '/folder/$folderId/',
-    path: '/folder/$folderId/',
-    getParentRoute: () => rootRouteImport,
+  id: '/',
+  path: '/',
+  getParentRoute: () => LayoutRoute,
 } as any)
 
 export interface FileRoutesByFullPath {
-    '/': typeof LayoutIndexRoute
-    '/login': typeof LoginIndexRoute
-    '/folder/$folderId': typeof FolderFolderIdIndexRoute
-    '/project/$projectId': typeof ProjectProjectIdIndexRoute
+  '/': typeof LayoutIndexRoute
+  '/login': typeof LoginIndexRoute
+  '/register': typeof RegisterIndexRoute
 }
 export interface FileRoutesByTo {
-    '/': typeof LayoutIndexRoute
-    '/login': typeof LoginIndexRoute
-    '/folder/$folderId': typeof FolderFolderIdIndexRoute
-    '/project/$projectId': typeof ProjectProjectIdIndexRoute
+  '/': typeof LayoutIndexRoute
+  '/login': typeof LoginIndexRoute
+  '/register': typeof RegisterIndexRoute
 }
 export interface FileRoutesById {
-    __root__: typeof rootRouteImport
-    '/_layout': typeof LayoutRouteWithChildren
-    '/_layout/': typeof LayoutIndexRoute
-    '/login/': typeof LoginIndexRoute
-    '/folder/$folderId/': typeof FolderFolderIdIndexRoute
-    '/project/$projectId/': typeof ProjectProjectIdIndexRoute
+  __root__: typeof rootRouteImport
+  '/_layout': typeof LayoutRouteWithChildren
+  '/_layout/': typeof LayoutIndexRoute
+  '/login/': typeof LoginIndexRoute
+  '/register/': typeof RegisterIndexRoute
 }
 export interface FileRouteTypes {
-    fileRoutesByFullPath: FileRoutesByFullPath
-    fullPaths: '/' | '/login' | '/folder/$folderId' | '/project/$projectId'
-    fileRoutesByTo: FileRoutesByTo
-    to: '/' | '/login' | '/folder/$folderId' | '/project/$projectId'
-    id:
-    | '__root__'
-    | '/_layout'
-    | '/_layout/'
-    | '/login/'
-    | '/folder/$folderId/'
-    | '/project/$projectId/'
-    fileRoutesById: FileRoutesById
+  fileRoutesByFullPath: FileRoutesByFullPath
+  fullPaths: '/' | '/login' | '/register'
+  fileRoutesByTo: FileRoutesByTo
+  to: '/' | '/login' | '/register'
+  id: '__root__' | '/_layout' | '/_layout/' | '/login/' | '/register/'
+  fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
-    LayoutRoute: typeof LayoutRouteWithChildren
-    LoginIndexRoute: typeof LoginIndexRoute
-    FolderFolderIdIndexRoute: typeof FolderFolderIdIndexRoute
-    ProjectProjectIdIndexRoute: typeof ProjectProjectIdIndexRoute
+  LayoutRoute: typeof LayoutRouteWithChildren
+  LoginIndexRoute: typeof LoginIndexRoute
+  RegisterIndexRoute: typeof RegisterIndexRoute
 }
 
 declare module '@tanstack/react-router' {
-    interface FileRoutesByPath {
-        '/_layout': {
-            id: '/_layout'
-            path: ''
-            fullPath: ''
-            preLoaderRoute: typeof LayoutRouteImport
-            parentRoute: typeof rootRouteImport
-        }
-        '/login/': {
-            id: '/login/'
-            path: '/login'
-            fullPath: '/login'
-            preLoaderRoute: typeof LoginIndexRouteImport
-            parentRoute: typeof rootRouteImport
-        }
-        '/_layout/': {
-            id: '/_layout/'
-            path: '/'
-            fullPath: '/'
-            preLoaderRoute: typeof LayoutIndexRouteImport
-            parentRoute: typeof LayoutRoute
-        }
-        '/project/$projectId/': {
-            id: '/project/$projectId/'
-            path: '/project/$projectId'
-            fullPath: '/project/$projectId'
-            preLoaderRoute: typeof ProjectProjectIdIndexRouteImport
-            parentRoute: typeof rootRouteImport
-        }
-        '/folder/$folderId/': {
-            id: '/folder/$folderId/'
-            path: '/folder/$folderId'
-            fullPath: '/folder/$folderId'
-            preLoaderRoute: typeof FolderFolderIdIndexRouteImport
-            parentRoute: typeof rootRouteImport
-        }
+  interface FileRoutesByPath {
+    '/_layout': {
+      id: '/_layout'
+      path: ''
+      fullPath: ''
+      preLoaderRoute: typeof LayoutRouteImport
+      parentRoute: typeof rootRouteImport
     }
+    '/register/': {
+      id: '/register/'
+      path: '/register'
+      fullPath: '/register'
+      preLoaderRoute: typeof RegisterIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/login/': {
+      id: '/login/'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof LoginIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_layout/': {
+      id: '/_layout/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof LayoutIndexRouteImport
+      parentRoute: typeof LayoutRoute
+    }
+  }
 }
 
 interface LayoutRouteChildren {
-    LayoutIndexRoute: typeof LayoutIndexRoute
+  LayoutIndexRoute: typeof LayoutIndexRoute
 }
 
 const LayoutRouteChildren: LayoutRouteChildren = {
-    LayoutIndexRoute: LayoutIndexRoute,
+  LayoutIndexRoute: LayoutIndexRoute,
 }
 
 const LayoutRouteWithChildren =
-    LayoutRoute._addFileChildren(LayoutRouteChildren)
+  LayoutRoute._addFileChildren(LayoutRouteChildren)
 
 const rootRouteChildren: RootRouteChildren = {
-    LayoutRoute: LayoutRouteWithChildren,
-    LoginIndexRoute: LoginIndexRoute,
-    FolderFolderIdIndexRoute: FolderFolderIdIndexRoute,
-    ProjectProjectIdIndexRoute: ProjectProjectIdIndexRoute,
+  LayoutRoute: LayoutRouteWithChildren,
+  LoginIndexRoute: LoginIndexRoute,
+  RegisterIndexRoute: RegisterIndexRoute,
 }
 export const routeTree = rootRouteImport
-    ._addFileChildren(rootRouteChildren)
-    ._addFileTypes<FileRouteTypes>()
+  ._addFileChildren(rootRouteChildren)
+  ._addFileTypes<FileRouteTypes>()

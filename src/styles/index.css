@@ -44,12 +44,12 @@
 :root {
     --radius: 0.625rem;
     --background: rgb(249, 244, 240);
-    --foreground: rgb(0, 0, 0);
+    --foreground: rgb(48, 48, 48);
     --card: rgb(249, 244, 240);
     --card-foreground: rgb(0, 0, 0);
     --popover: rgb(249, 244, 240);
     --popover-foreground: rgb(0, 0, 0);
-    --primary: rgb(255, 73, 38);
+    --primary: rgb(23, 25, 126);
     --primary-foreground: rgb(255, 229, 201);
     --secondary: rgb(232, 130, 109);
     --secondary-foreground: rgb(255, 229, 201);
@@ -89,7 +89,7 @@
     --secondary-foreground: rgb(255, 229, 201);
     --muted: rgb(38, 38, 38);
     --muted-foreground: rgb(161, 161, 161);
-    --accent: rgb(38, 38, 38);
+    --accent: rgb(40, 40, 38);
     --accent-foreground: rgb(249, 244, 240);
     --destructive: rgb(255, 38, 38);
     --border: rgba(255, 255, 255, 0.1);
@@ -124,7 +124,7 @@
     }
 
     h1 {
-        @apply text-foreground text-3xl font-semibold;
+        @apply text-foreground text-3xl font-bold;
         line-height: 120%;
     }
 
@@ -154,8 +154,9 @@
     }
 
     p,
-    span {
-        @apply text-foreground text-base;
+    span,
+    a {
+        @apply text-foreground text-sm;
         line-height: 120%;
     }
 
