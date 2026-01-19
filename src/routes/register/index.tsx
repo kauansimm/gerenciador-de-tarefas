@@ -4,14 +4,59 @@ import { Label } from '@/components/ui/label'
 import { Input } from '@/components/ui/input'
 import { EyeOff } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { useForm, type Resolver } from 'react-hook-form'
+import { useRegisterUser } from '@/hooks/useRegisterUser';
+import type User from '@/classes/user';
 
 export const Route = createFileRoute('/register/')({
   component: RouteComponent,
 })
 
+const resolver: Resolver<User> = async (values) => {
+  return {
+    values:
+      values.name && values.email && values.password ? values : {},
+    errors: {
+      ...(!values.name && {
+        name: {
+          type: "required",
+          message: "O campo nome é obrigatório",
+        },
+      }),
+      ...(!values.email && {
+        email: {
+          type: "required",
+          message: "O campo e-mail é obrigatório",
+        },
+      }),
+      ...(!values.password && {
+        password: {
+          type: "required",
+          message: "O campo senha é obrigatório",
+        },
+      }),
+    },
+  }
+}
+
 function RouteComponent() {
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<User>({
+    resolver
+  })
+
+  const { registerUser } = useRegisterUser()
+
+  const onSubmit = handleSubmit((user: User) => {
+    registerUser(user)
+  })
+
   return (
-    <div className='flex-container flex-row-reverse min-h-dvh'>
+    <div className='flex-container min-h-dvh'>
       <img
         src={banner}
         alt="Banner lateral"
@@ -24,7 +69,10 @@ function RouteComponent() {
           Crie sua conta gratuita agora!
         </h1>
 
-        <form className='flex-container flex-col max-w-7/12 gap-2'>
+        <form
+          onSubmit={onSubmit}
+          className='flex-container flex-col max-w-7/12 gap-2'
+        >
           <Label htmlFor='name'>
             Nome
           </Label>
@@ -32,7 +80,13 @@ function RouteComponent() {
             id='name'
             type='text'
             placeholder='Insira seu nome ou apelido'
+            {...register('name')}
           />
+          {errors.name &&
+            <span className='text-destructive'>
+              {errors.name.message}
+            </span>
+          }
 
           <Label
             htmlFor='email'
@@ -44,7 +98,13 @@ function RouteComponent() {
             id='email'
             type='email'
             placeholder='SeuNome@example.com'
+            {...register('email')}
           />
+          {errors.email &&
+            <span className='text-destructive'>
+              {errors.email.message}
+            </span>
+          }
 
           <Label
             htmlFor='password'
@@ -57,20 +117,13 @@ function RouteComponent() {
             type='password'
             placeholder='Insira sua senha'
             endIcon={() => <EyeOff size={16} />}
+            {...register('password')}
           />
-
-          <Label
-            htmlFor='confirm-password'
-            className='mt-2'
-          >
-            Confirmar senha
-          </Label>
-          <Input
-            id='confirm-password'
-            type='confirm-password'
-            placeholder='Insira sua senha novamente'
-            endIcon={() => <EyeOff size={16} />}
-          />
+          {errors.password &&
+            <span className='text-destructive'>
+              {errors.password.message}
+            </span>
+          }
 
           <span className='text-center my-1'>
             Já tem uma conta? { }

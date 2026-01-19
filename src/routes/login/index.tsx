@@ -4,12 +4,62 @@ import { Label } from '@/components/ui/label'
 import { Input } from '@/components/ui/input'
 import { EyeOff } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { useForm, type Resolver } from 'react-hook-form';
+import type User from '@/classes/user';
+import { useRegisterUser } from '@/hooks/useRegisterUser';
 
 export const Route = createFileRoute('/login/')({
   component: RouteComponent,
 })
 
+const resolver: Resolver<User> = async (values) => {
+  return {
+    values:
+      values.email && values.password ? values : {},
+    errors: {
+      ...(!values.email && {
+        email: {
+          type: "required",
+          message: "O campo e-mail é obrigatório",
+        },
+      }),
+      ...(!values.password && {
+        password: {
+          type: "required",
+          message: "O campo senha é obrigatório",
+        },
+      }),
+
+    },
+  }
+}
+
 function RouteComponent() {
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<User>({
+    resolver
+  })
+
+  const { user } = useRegisterUser()
+  const navigate = useNavigate()
+
+  const onSubmit = handleSubmit((userLogin: Partial<Omit<User, 'name'>>) => {
+
+    const sameEmail = user.email === userLogin.email
+    const samePassword = user.password === userLogin.password
+
+    if (sameEmail && samePassword) {
+      navigate({
+        to: '/'
+      })
+    }
+
+  })
+
   return (
     <div className='flex-container min-h-dvh'>
       <img
@@ -24,7 +74,10 @@ function RouteComponent() {
           Que bom ver você aqui!
         </h1>
 
-        <form className='flex-container flex-col max-w-7/12 gap-2'>
+        <form
+          onSubmit={onSubmit}
+          className='flex-container flex-col max-w-7/12 gap-2'
+        >
           <Label htmlFor='email'>
             E-mail
           </Label>
@@ -32,7 +85,13 @@ function RouteComponent() {
             id='email'
             type='email'
             placeholder='SeuNome@example.com'
+            {...register('email')}
           />
+          {errors.email &&
+            <span className='text-destructive'>
+              {errors.email.message}
+            </span>
+          }
 
           <Label
             htmlFor='password'
@@ -45,7 +104,13 @@ function RouteComponent() {
             type='password'
             placeholder='Insira sua senha'
             endIcon={() => <EyeOff size={16} />}
+            {...register('password')}
           />
+          {errors.password &&
+            <span className='text-destructive'>
+              {errors.password.message}
+            </span>
+          }
 
           <Link
             to='/'
