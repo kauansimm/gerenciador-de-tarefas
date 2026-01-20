@@ -6,7 +6,7 @@ export const Route = createFileRoute('/_layout')({
 
 function RouteComponent() {
     return (
-        <div className='flex-container min-h-dvh flex-col items-start gap-9 px-8 py-4.5 lg:px-16 lg:py-9'>
+        <div className='flex-container min-h-dvh flex-col items-start gap-9 px-8 py-4.5 lg:px-10 lg:py-6'>
             <Outlet />
         </div>
     )

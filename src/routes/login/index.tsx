@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/button';
 import { useForm, type Resolver } from 'react-hook-form';
 import type User from '@/classes/user';
 import { useRegisterUser } from '@/hooks/useRegisterUser';
+import { use } from 'react';
 
 export const Route = createFileRoute('/login/')({
   component: RouteComponent,
@@ -44,21 +45,23 @@ function RouteComponent() {
     resolver
   })
 
-  const { user } = useRegisterUser()
+  const { loginUser } = useRegisterUser()
   const navigate = useNavigate()
 
   const onSubmit = handleSubmit((userLogin: Partial<Omit<User, 'name'>>) => {
 
-    const sameEmail = user.email === userLogin.email
-    const samePassword = user.password === userLogin.password
+    loginUser(userLogin)
 
-    if (sameEmail && samePassword) {
+    const isAuthNow = useRegisterUser.getState().isAuthenticated
+
+    if (isAuthNow) {
       navigate({
         to: '/'
       })
     }
 
   })
+
 
   return (
     <div className='flex-container min-h-dvh'>

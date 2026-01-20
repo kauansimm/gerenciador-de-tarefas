@@ -1,3 +1,4 @@
+import { Topbar } from '@/components/layout/top-bar'
 import { createFileRoute } from '@tanstack/react-router'
 
 export const Route = createFileRoute('/_layout/')({
@@ -5,5 +6,9 @@ export const Route = createFileRoute('/_layout/')({
 })
 
 function RouteComponent() {
-  return <div>Hello "/_layout/"!</div>
+  return (
+      <div className='flex-container'>
+        <Topbar />
+      </div>
+  )
 }

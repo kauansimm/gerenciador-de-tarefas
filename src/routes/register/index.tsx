@@ -1,4 +1,4 @@
-import { createFileRoute, Link } from '@tanstack/react-router'
+import { createFileRoute, Link, useNavigate } from '@tanstack/react-router'
 import banner from '../../assets/banner.jpg'
 import { Label } from '@/components/ui/label'
 import { Input } from '@/components/ui/input'
@@ -50,9 +50,13 @@ function RouteComponent() {
   })
 
   const { registerUser } = useRegisterUser()
+  const navigate = useNavigate()
 
   const onSubmit = handleSubmit((user: User) => {
     registerUser(user)
+    navigate({
+      to: '/login'
+    })
   })
 
   return (
