@@ -6,6 +6,7 @@ interface UserState {
     user: User
     registerUser: (user: User) => void
     loginUser: (user: Partial<Omit<User, 'name'>>) => void
+    logout: () => void
     isAuthenticated: boolean
 }
 
@@ -18,7 +19,7 @@ export const useRegisterUser = create<UserState>()(
                 password: ''
             },
             isAuthenticated: false,
-            
+
             registerUser: (user) =>
                 set(_ => ({
                     user: user,
@@ -28,6 +29,11 @@ export const useRegisterUser = create<UserState>()(
                 set(state => ({
                     isAuthenticated: (userLogin.email === state.user.email) && (userLogin.password === state.user.password),
                 })),
+
+            logout: () =>
+                set(_ => ({
+                    isAuthenticated: false,
+                }))
         }),
         {
             name: 'user-storage'
